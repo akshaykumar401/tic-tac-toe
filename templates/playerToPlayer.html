@@ -6,17 +6,20 @@
 <main id="main" class="w-full h-screen flex flex-col gap-2">
     <section id="winner_section" class="mt-4 w-full h-auto flex items-center justify-around">
         <div class="flex w-[10rem] h-[4rem] font-medium bg-blue-200 justify-center items-center rounded-2xl text-xl z-[-2] shadow-lg">
-            Player X:
-            <span id="player_x" class="font-normal">1</span>
+            Player X:&nbsp;
+            <span id="player_x" class="font-normal"></span>
             <img src="{{ url_for('static', filename='images/pointes.png') }}" alt="Background_image" class="w-[10rem] h-[4rem] rounded-2xl absolute z-[-1] opacity-70">
         </div>
         <div class="flex w-[10rem] h-[4rem] font-medium bg-red-200 justify-center items-center rounded-2xl text-xl z-[-2] shadow-lg">
-            Player O:
-            <span id="player_o" class="font-normal">10</span>
+            Player O:&nbsp;
+            <span id="player_o" class="font-normal"></span>
             <img src="{{ url_for('static', filename='images/pointes.png') }}" alt="Background_image" class="w-[10rem] h-[4rem] rounded-2xl absolute z-[-1] opacity-70">
         </div>
     </section>
-    <section id="game_section" class="w-full h-auto flex items-center justify-center flex-col gap-2 mt-12">
+    <section id="player_turn_section" class="mt-4 w-full h-auto flex items-center justify-center">
+        <p id="player_turn" class="text-2xl font-medium"></p>
+    </section>
+    <section id="game_section" class="w-full h-auto flex items-center justify-center flex-col mt-4">
         <div id="main_game" class="bg-white w-[32rem] h-[32rem] p-4 rounded-2xl">
             <div id="row_one" class="flex ">
                 <input class="box font-['Pacifico'] border-r-2 border-b-2 text-5xl font-thin not-italic w-[10rem] h-[10rem] cursor-pointer" type="button" />
@@ -35,8 +38,9 @@
             </div>
         </div>
     </section>
-    <section id="button-section" class="flex justify-center items-center h-auto w-full" >
-        <button id="reset_game" class="cursor-pointer bg-blue-200 hover:bg-blue-500 duration-300 active:scale-[0.9] hover:text-white mt-8 w-[20rem] h-[4rem] rounded-2xl shadow-xl">Reset Game</button>
+    <section id="button-section" class="flex justify-center items-center h-auto w-full gap-2" >
+        <button id="reset_game" class="cursor-pointer bg-blue-200 hover:bg-blue-500 duration-300 active:scale-[0.9] hover:text-white mt-8 w-[15rem] h-[4rem] rounded-2xl shadow-xl">Reset Game</button>
+        <button id="clear_board" class="cursor-pointer bg-green-200 hover:bg-green-500 duration-300 active:scale-[0.9] hover:text-white mt-8 w-[15rem] h-[4rem] rounded-2xl shadow-xl">Clear Board</button>
     </section>
 </main>
 <section id="winning_banner" class="w-full bg-gray-100 hidden shadow-xl h-[12rem] absolute top-[50%] translate-y-[-50%]">
@@ -45,7 +49,7 @@
             Congratulations 🎉
         </p>
         <span id="winner">Player X Win</span>
-        <button class="cursor-pointer bg-blue-200 hover:bg-blue-500 duration-300 active:scale-[0.9] hover:text-white w-[20rem] h-[3rem] mt-2 rounded-2xl shadow-xl">Play Again</button>
+        <button id="play_again" class="cursor-pointer bg-blue-200 hover:bg-blue-500 duration-300 active:scale-[0.9] hover:text-white w-[20rem] h-[3rem] mt-2 rounded-2xl shadow-xl">Play Again</button>
     </div>
 </section>
 

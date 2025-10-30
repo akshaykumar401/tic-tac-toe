@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %} {% endblock %} | Tic Tac Toe
+    </title>
+    <link href="{{ url_for('static', filename='CSS/output.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='images/ICON.jpg') }}" rel="icon">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-200 w-full h-screen">
+    {% block content %}{% endblock %}
+</body>
+</html>

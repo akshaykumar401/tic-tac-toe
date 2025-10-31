@@ -1,7 +1,20 @@
 {% extends "base.html" %}
 
-{% block title %} Play Online {% endblock %}
+{% block title %} Patch User {% endblock %}
 
 {% block content %}
-<h1>Play Online</h1>
+<h1>Patch User</h1>
+<section id="patch_user">
+    <input id="username" placeholder="Username" />
+    <input id="room" placeholder="Room ID" />
+    <button id="patch_user_btn">Patch User</button>
+    <h3 id="status"></h3>
+</section>
+<section id="chat_section">
+    <ul id="message_section"></ul>
+    <input id="message" placeholder="Type Message" />
+    <button id="send_message_btn">Send</button>
+</section>
+
+<script src="{{ url_for('static', filename='JS/playOnline.js') }}"></script>
 {% endblock %}

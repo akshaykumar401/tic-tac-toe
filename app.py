@@ -1,7 +1,10 @@
 from flask import Flask, render_template
+from flask_socketio import SocketIO, join_room, leave_room, emit
 
 app = Flask(__name__)
-app.static_folder = 'static'    # Assigning The Static Folder....
+app.config['SECRET_KEY'] = 'your-secret-key'
+socketio = SocketIO(app, cors_allowed_origins="*")
+rooms = {}   # for track rooms and players
 
 ###########  All Routes Here ########
 @app.route('/')
@@ -24,10 +27,48 @@ def play_with_ai():
 def rules():
     return render_template('rules.html')
 
-@app.route('/patchUser')
-def patch_user():
-    return render_template('patchUser.html')
 #################### All Routes End Here #######
 
-if __name__ == "__main__":
-    app.run(debug=True)
+@socketio.on('join_room')
+def _join_room(data):
+    room = data['room']     # room ID Must be an Integer
+    username = data['username']
+
+    if room not in rooms:
+        rooms[room] = []
+
+    if len(rooms[room]) >= 2:
+        emit('room_full', room)
+
+    # Adding Player to Room
+    rooms[room].append(username)
+    join_room(room)
+    emit('joined_room', {'room': room, 'username': username})
+
+@socketio.on('leave_room')
+def leave_room(data):
+    room = data['room']
+    username = data['username']
+
+    if room in rooms and username in rooms[room]:
+        rooms[room].remove(username)
+
+    leave_room(room)
+    emit('left_room', {'room': room, 'username': username})
+
+@socketio.on('send_message')
+def send_message(data):
+    room = data['room']
+    username = data['username']
+    message = data['message']
+
+    emit('receive_message', {'room': room, 'username': username, 'message': message}, room=room)
+
+@socketio.on('disconnect')
+def disconnect():
+    for room in rooms:
+        for username in rooms[room]:
+            emit('left_room', {'room': room, 'username': username})
+
+if __name__ == '__main__':
+    socketio.run(app, debug=True, host='0.0.0.0', port=5000)

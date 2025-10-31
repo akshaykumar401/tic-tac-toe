@@ -7,7 +7,7 @@ playerToPlayer.addEventListener('click', () => {
 });
 
 playOnline.addEventListener('click', () => {
-    window.location.href = '/patchUser';
+    window.location.href = '/playOnline';
 });
 
 playWithAI.addEventListener('click', () => {

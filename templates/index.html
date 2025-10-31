@@ -3,14 +3,57 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
-<h1>Home</h1>
+<header id="header" class="w-full h-[10rem] flex items-center justify-center">
+    <h1 class="text-5xl font-bold font-['Pacifico']">Tic Tac Toe</h1>
+</header>
 
-<div class="flex flex-col gap-1 mt-2">
-    <a href="{{ url_for('player_to_player') }}" class="text-blue-700">Player to Player</a>
-    <a href="{{ url_for('play_online') }}" class="text-blue-700">Play Online</a>
-    <a href="{{ url_for('play_with_ai') }}" class="text-blue-700">Play with AI</a>
-    <a href="{{ url_for('rules') }}" class="text-blue-700">Rules</a>
-    <a href="{{ url_for('patch_user') }}" class="text-blue-700">patch User</a>
-</div>
+<section id="game_section" class="flex gap-12 p-12 justify-center flex-wrap">
+    <div id="player_to_player" class="cursor-pointer hover:scale-[1.03] active:scale-[0.99] duration-300 relative w-[20rem] rounded-2xl overflow-hidden shadow-2xl">
+        <img
+            src="{{ url_for('static', filename='images/Player_to_Player.png') }}"
+            alt="Player to Player Game"
+            class="w-full h-96 object-repeat"
+        >
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-2 text-white">
+            <h2 class="text-5xl font-bold mb-6">Player to Player</h2>
+            <div class="flex items-center justify-between">
+                <p class="text-xl text-gray-300">You can Play with your friend in Physical World.</p>
+            </div>
+        </div>
+    </div>
 
+    <div id="play_online" class="cursor-pointer hover:scale-[1.03] active:scale-[0.99] duration-300 relative w-[20rem] rounded-2xl overflow-hidden shadow-2xl">
+        <img
+            src="{{ url_for('static', filename='images/Play_online.png') }}"
+            alt="Play Online Game"
+            class="w-full h-96 object-repeat"
+        >
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-2 text-white">
+            <h1 class="text-5xl font-bold mb-6">Play online</h1>
+            <div class="flex items-center justify-between">
+                <p class="text-xl text-gray-300">You can Play with your friend in Online World.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="play_with_ai" class="cursor-pointer hover:scale-[1.03] active:scale-[0.99] duration-300 relative w-[20rem] rounded-2xl overflow-hidden shadow-2xl">
+        <img
+            src="{{ url_for('static', filename='images/Play_with_AI.png') }}"
+            alt="Play with online game"
+            class="w-full h-96 object-repeat"
+        >
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-2 text-white">
+            <h1 class="text-5xl font-bold mb-6">Play with AI</h1>
+            <div class="flex items-center justify-between">
+                <p class="text-xl text-gray-300">You can Play with AI in Online World.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="{{ url_for('static', filename='JS/index.js') }}"></script>
 {% endblock %}

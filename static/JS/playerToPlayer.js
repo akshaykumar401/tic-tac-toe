@@ -1,13 +1,11 @@
 const boxes = document.querySelectorAll(".box");
 const resetButton = document.getElementById("reset_game");
-const winningText = document.getElementById("winner");
-const winningBanner = document.getElementById("winning_banner");
-const main = document.getElementById("main");
 const playAgainButton = document.getElementById("play_again");
 const playerXPoints = document.getElementById("player_x");
 const playerOPoints = document.getElementById("player_o");
 const playerTurnMessage = document.getElementById("player_turn");
-const clearBoardButton = document.getElementById("clear_board");
+const winningMessage = document.getElementById("winner");
+const winningDisplay = document.getElementById("winner_display");
 
 let turnForX = true;
 let playerX = 0;
@@ -33,9 +31,8 @@ const showWinner = (winner) => {
         playerXPoints.textContent = ++playerX;
     else
         playerOPoints.textContent = ++playerO;
-    winningBanner.classList.remove("hidden");
-    main.classList.add("blur")
-    winningText.textContent = `Player ${winner} Win`;
+    winningDisplay.classList.remove("hidden");
+    winningMessage.textContent = `Player ${winner} Win`;
     disableBoxes();
 };
 
@@ -66,6 +63,9 @@ const checkWinner = () => {
 
         if(pos1Val != "" && pos2Val != "" && pos3Val != "") {
             if(pos1Val === pos2Val && pos2Val === pos3Val) {
+                boxes[pattern[0]].classList.add("bg-green-200");
+                boxes[pattern[1]].classList.add("bg-green-200");
+                boxes[pattern[2]].classList.add("bg-green-200");
                 showWinner(pos1Val);
             }
         }
@@ -92,14 +92,14 @@ const resetGame = () => {
 
 // Play Again Methode...
 const playAgain = () => {
-    winningBanner.classList.add("hidden");
-    main.classList.remove("blur")
+    winningDisplay.classList.add("hidden");
     enableBoxes();
 };
 
 // Enabling all Button methode after resetting the game...
 const enableBoxes = () => {
     for(let box of boxes) {
+        box.classList.remove("bg-green-200");
         box.disabled = false;
         box.value = "";
     }
@@ -107,4 +107,3 @@ const enableBoxes = () => {
 
 resetButton.addEventListener("click", resetGame);
 play_again.addEventListener("click", playAgain);
-clearBoardButton.addEventListener("click", enableBoxes);

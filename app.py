@@ -37,13 +37,21 @@ def _join_room(data):
     if room not in rooms:
         rooms[room] = []
 
+    if len(rooms[room]) == 2:
+        emit('Player_info', {'room':rooms, 'message': 'Room is full.'})
+
     if len(rooms[room]) >= 2:
-        emit('room_full', room)
+        emit('room_full', {'room':room, 'message': 'Room is full.'})
 
     # Adding Player to Room
     rooms[room].append(username)
     join_room(room)
     emit('joined_room', {'room': room, 'username': username})
+
+@socketio.on('check_room_status')
+def check_room_status(data):
+    room = data['room']
+    emit('room_status', {'room': rooms, 'status': len(rooms[room])})
 
 @socketio.on('leave_room')
 def leave_room(data):
@@ -55,6 +63,12 @@ def leave_room(data):
 
     leave_room(room)
     emit('left_room', {'room': room, 'username': username})
+
+@socketio.on('get_rooms_info')
+def get_rooms_info(data):
+    room = data['room']
+    # filter rooms with players
+    emit('room_info', {'room': rooms, 'room_id': room}, room=room)
 
 @socketio.on('send_message')
 def send_message(data):

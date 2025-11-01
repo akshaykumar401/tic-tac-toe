@@ -3,17 +3,87 @@
 {% block title %} Patch User {% endblock %}
 
 {% block content %}
-<h1>Patch User</h1>
-<section id="patch_user">
-    <input id="username" placeholder="Username" />
-    <input id="room" placeholder="Room ID" />
-    <button id="patch_user_btn">Patch User</button>
-    <h3 id="status"></h3>
+<!--<h1>Patch User</h1>-->
+<!--<section id="patch_user">-->
+<!--    <input id="username" placeholder="Username" />-->
+<!--    <input id="room" placeholder="Room ID" />-->
+<!--    <button id="patch_user_btn">Patch User</button>-->
+<!--    <h3 id="status"></h3>-->
+<!--</section>-->
+<!--<section id="chat_section">-->
+<!--    <ul id="message_section"></ul>-->
+<!--    <input id="message" placeholder="Type Message" />-->
+<!--    <button id="send_message_btn">Send</button>-->
+<!--</section>-->
+
+
+<section id="patch_user" class="w-full h-screen">
+    <img src="{{ url_for('static', filename='images/Play_online.png') }}" alt="Play Online Game" class="w-full h-screen object-cover absolute z-[-1] opacity-100" />
+    <h2 class="text-5xl text-white z-[1] font-bold font-['Pacifico'] text-center pt-12">Patch Player</h2>
+    <div class="w-[30rem] h-[20rem] rounded-2xl p-10 absolute left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%] bg-white/40 flex flex-col items-center justify-center">
+        <div class="flex items-center">
+            <label for="username" class="mr-2 text-2xl font-bold text-[#FFE100]">Username: </label>
+            <input placeholder="Username" id="username" value="Player" class=" text-2xl border-b-2 border-black outline-none text-black w-[17rem]" />
+        </div>
+        <div id="rooms_buttons" class="flex items-center justify-around gap-6">
+            <button id="create_room" class="cursor-pointer bg-blue-200 hover:bg-blue-500 duration-300 active:scale-[0.9] hover:text-white mt-8 w-[10rem] h-[4rem] rounded-2xl shadow-xl">Create Room</button>
+            <button id="join_room" class="cursor-pointer bg-green-200 hover:bg-green-500 duration-300 active:scale-[0.9] hover:text-white mt-8 w-[10rem] h-[4rem] rounded-2xl shadow-xl">Join Room</button>
+        </div>
+        <div id="join_room_div" class="mt-4 hidden">
+            <label for="join_room_id" class="mr-2 text-2xl font-bold text-[#FFE100]">Room ID: </label>
+            <input placeholder="Room ID" id="join_room_id" class=" text-2xl border-b-2 border-black outline-none text-black w-[17rem]" />
+            <button id="join_room_btn" class="ml-[5rem] cursor-pointer bg-green-200 hover:bg-green-500 duration-300 active:scale-[0.9] hover:text-white mt-8 w-[15rem] h-[4rem] rounded-2xl shadow-xl">Join</button>
+        </div>
+        <div id="room_id_div" class="mt-4 hidden">
+            <h3 class="text-4xl font-bold text-center">Room ID:</h3>
+            <p id="room_id_value" class="text-xl font-semibold text-center"></p>
+            <p id="status" class="text-xl text-center"></p>
+        </div>
+    </div>
 </section>
-<section id="chat_section">
-    <ul id="message_section"></ul>
-    <input id="message" placeholder="Type Message" />
-    <button id="send_message_btn">Send</button>
+<section id="game_section" class="hidden w-full h-screen">
+    <section id="winner_section" class="mt-4 w-full h-auto flex items-center justify-around">
+        <div class="flex w-[10rem] h-[4rem] font-medium bg-blue-200 justify-center items-center rounded-2xl text-xl z-[-2] shadow-lg">
+            <span id="player_x_name"></span>&nbsp;
+            <span id="player_x" class="font-normal"></span>
+            <img src="{{ url_for('static', filename='images/pointes.png') }}" alt="Background_image" class="w-[10rem] h-[4rem] rounded-2xl absolute z-[-1] opacity-70">
+        </div>
+        <div class="flex w-[10rem] h-[4rem] font-medium bg-red-200 justify-center items-center rounded-2xl text-xl z-[-2] shadow-lg">
+            <span id="player_o_name"></span>&nbsp;
+            <span id="player_o" class="font-normal"></span>
+            <img src="{{ url_for('static', filename='images/pointes.png') }}" alt="Background_image" class="w-[10rem] h-[4rem] rounded-2xl absolute z-[-1] opacity-70">
+        </div>
+    </section>
+    <section id="player_turn_section" class="mt-4 w-full h-auto flex items-center justify-center">
+        <p id="player_turn" class="text-2xl font-medium"></p>
+    </section>
+    <section id="winner_display" class="absolute hidden bg-gray-200 w-[20rem] h-[5rem] rounded-2xl top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] flex flex-col items-center justify-center">
+        <p class="text-2xl font-semibold text-center">Congratulations 🎉</p>
+        <span id="winner">Player X win</span>
+    </section>
+    <section id="_game_section" class="w-full h-auto flex items-center justify-center flex-col mt-4">
+        <div id="main_game" class="bg-white w-[32rem] h-[32rem] p-4 rounded-2xl">
+            <div id="row_one" class="flex ">
+                <input class="box font-['Pacifico'] border-r-2 border-b-2 text-5xl font-thin not-italic w-[10rem] h-[10rem] cursor-pointer" type="button" />
+                <input class="box font-['Pacifico'] border-b-2  border-r-2 text-5xl font-thin not-italic w-[10rem] h-[10rem] cursor-pointer" type="button" />
+                <input class="box font-['Pacifico'] border-b-2 text-5xl font-thin not-italic w-[10rem] h-[10rem] cursor-pointer" type="button" />
+            </div>
+            <div id="row_two" class="flex">
+                <input class="box font-['Pacifico'] border-b-2  border-r-2 text-5xl font-thin not-italic w-[10rem] h-[10rem] cursor-pointer" type="button" />
+                <input class="box font-['Pacifico'] border-b-2  border-r-2 text-5xl font-thin not-italic w-[10rem] h-[10rem] cursor-pointer" type="button" />
+                <input class="box font-['Pacifico'] border-b-2 text-5xl font-thin not-italic w-[10rem] h-[10rem] cursor-pointer" type="button" />
+            </div>
+            <div id="row_three" class="flex">
+                <input class="box font-['Pacifico'] border-r-2 text-5xl font-thin not-italic w-[10rem] h-[10rem] cursor-pointer" type="button" />
+                <input class="box font-['Pacifico'] border-r-2 text-5xl font-thin not-italic w-[10rem] h-[10rem] cursor-pointer" type="button" />
+                <input class="box font-['Pacifico'] text-5xl font-thin not-italic w-[10rem] h-[10rem] cursor-pointer" type="button" />
+            </div>
+        </div>
+    </section>
+    <section id="button-section" class="flex justify-center items-center h-auto w-full gap-2" >
+        <button id="reset_game" class="cursor-pointer bg-blue-200 hover:bg-blue-500 duration-300 active:scale-[0.9] hover:text-white mt-8 w-[15rem] h-[4rem] rounded-2xl shadow-xl">Reset Game</button>
+        <button id="play_again" class="cursor-pointer bg-green-200 hover:bg-green-500 duration-300 active:scale-[0.9] hover:text-white mt-8 w-[15rem] h-[4rem] rounded-2xl shadow-xl">Play Again</button>
+    </section>
 </section>
 
 <script src="{{ url_for('static', filename='JS/playOnline.js') }}"></script>

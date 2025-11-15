@@ -7,7 +7,9 @@ app.config['SECRET_KEY'] = 'your-secret-key'
 socketio = SocketIO(app, cors_allowed_origins="*")
 games = {}   # for track rooms and players
 
-###########  All Routes Here ########
+# ---------------------------------------------------------
+#           All Routes Here 
+# ---------------------------------------------------------
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -28,7 +30,9 @@ def play_with_ai():
 def rules():
     return render_template('rules.html')
 
-#################### All Routes End Here #######
+# ---------------------------------------------------------
+#                    All Routes End Here 
+# ---------------------------------------------------------
 
 @socketio.on('connect')
 def handle_connect():
@@ -166,68 +170,4 @@ def check_winner(board):
         return 'draw'
     
     return None
-# @socketio.on('join_room')
-# def _join_room(data):
-#     room = data['room']     # room ID Must be an Integer
-#     username = data['username']
 
-#     if room not in rooms:
-#         rooms[room] = []
-
-#     if len(rooms[room]) == 2:
-#         emit('Player_info', {'room':rooms, 'message': 'Room is full.'})
-
-#     if len(rooms[room]) >= 2:
-#         emit('room_full', {'room':room, 'message': 'Room is full.'})
-
-#     # Adding Player to Room
-#     rooms[room].append(username)
-#     join_room(room)
-#     emit('joined_room', {'room': room, 'username': username})
-
-# @socketio.on('check_room_status')
-# def check_room_status(data):
-#     room = data['room']
-#     emit('room_status', {'room': rooms, 'status': len(rooms[room])})
-
-# @socketio.on('leave_room')
-# def leave_room(data):
-#     room = data['room']
-#     username = data['username']
-
-#     if room in rooms and username in rooms[room]:
-#         rooms[room].remove(username)
-
-#     leave_room(room)
-#     emit('left_room', {'room': room, 'username': username})
-
-# @socketio.on('get_rooms_info')
-# def get_rooms_info(data):
-#     room = data['room']
-#     # filter rooms with players
-#     emit('room_info', {'room': rooms, 'room_id': room}, room=room)
-
-# @socketio.on('send_message')
-# def send_message(data):
-#     room = data['room']
-#     username = data['username']
-#     message = data['message']
-
-#     emit('receive_message', {'room': room, 'username': username, 'message': message}, room=room)
-
-# @socketio.on('patch_board')
-# def patch_board(data):
-#     board = data['board']
-#     turn = data['turn']
-#     player = data['player']
-
-#     emit('patch_board', {'board': board, 'turn': turn, 'player': player}, room=room)
-
-# @socketio.on('disconnect')
-# def disconnect():
-#     for room in rooms:
-#         for username in rooms[room]:
-#             emit('left_room', {'room': room, 'username': username})
-
-if __name__ == '__main__':
-    socketio.run(app, debug=True, host='0.0.0.0', port=5000)

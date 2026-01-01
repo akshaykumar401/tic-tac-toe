@@ -3,5 +3,14 @@
 {% block title %} Play with AI {% endblock %}
 
 {% block content %}
-<h1>Play with AI</h1>
+<div class="h-screen w-full flex justify-center items-center">
+  <h2 class="text-2xl font-bold mb-6">Comming Soon<span id="dot"></span></h2>
+</div>
+<script>
+  let dots = 0;
+  setInterval(() => {
+    dots = (dots + 1) % 4;
+    document.getElementById('dot').textContent = '.'.repeat(dots);
+  }, 500);
+</script>
 {% endblock %}

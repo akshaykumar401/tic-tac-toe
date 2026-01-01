@@ -1,19 +1,81 @@
-# Tic Tac Toe Game Project.
+# Tic Tac Toe.
 
-This Game is made using Python Flask and HTML, CSS, JS.
+A real-time Tic Tac Toe web game built using HTML, Tailwind CSS, JavaScript, and a Python Flask backend powered by Flask-SocketIO for online multiplayer functionality.
 
 ## Features
 
-- Player to Player
-- Play Online
-- Play With AI
-- Rules
-- Patch User
+- **Player vs Player (Local)** -> Play with another player on the same device.
+- **Online Multiplayer** -> Real-time gameplay using WebSockets with Flask-SocketIO.
+- **Play with AI (Coming Soon)** -> AI opponent with intelligent move logic.
 
-## How to Run
+## Technologies Used
 
-- Clone the repository
-- Run the app.py file
-- Open the index.html file in the browser
+- **FRONTEND**
+<br />
+  1. **HTML** -> Game structure
+  2. **Tailwind CSS** -> Utility-first styling
+  3. **JavaScript** -> Game logic and interactivity
 
-`npx @tailwindcss/cli -i ./static/CSS/input.css -o ./static/CSS/output.css --watch`
+- **BACKEND**
+<br />
+  1. **Python Flask** –> Server-side framework
+  2. **Flask-SocketIO** –> Real-time communication
+
+## Project Structure
+
+``` arduino
+Tic-Tac-Toe/
+│
+├── node_modules/
+├── static/
+│   ├── CSS/
+│   │   └── output.css
+│   │   └── input.css
+│   ├── JS/
+│   │   └── index.js
+│   │   └── playerToPlayer.js
+│   │   └── playOnline.js
+│   └── images/
+│       └── logo.png...
+├── templates/
+│   ├── base.html
+│   ├── index.html
+│   ├── playerToPlayer.html
+│   ├── playOnline.html
+│   ├── playWithAI.html
+│   └── rules.html
+│
+├── .gitignore
+├── app.py
+├── index.py
+├── package.json
+├── package-lock.json
+├── requirements.txt
+├── vercel.json
+├── wsgi.py
+└── README.md
+```
+
+## Install and Setup
+
+1. Clone The Repository
+2. Install node Dependencies using
+``` bash
+npm install
+```
+3. Install Backend Dependencies
+``` bash
+pip install -r requirements.txt
+```
+4. Run the Flask Server
+``` bash
+python wsgi.py
+```
+
+## Tailwind Setup
+
+If you want to rebuild Tailwind styles:
+
+``` bash
+npx @tailwindcss/cli -i ./static/CSS/input.css -o ./static/CSS/output.css --watch
+```

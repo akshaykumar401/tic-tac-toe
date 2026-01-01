@@ -36,12 +36,11 @@ def rules():
 
 @socketio.on('connect')
 def handle_connect():
-    print(f'Client connected: {request.sid}')
+    pass
 
+# Disconnect Function....
 @socketio.on('disconnect')
 def handle_disconnect():
-    print(f'Client disconnected: {request.sid}')
-    # Clean up games when player disconnects
     for room in list(games.keys()):
         if request.sid in games[room]['players']:
             del games[room]['players'][request.sid]
@@ -50,23 +49,25 @@ def handle_disconnect():
             else:
                 socketio.emit('opponent_left', room=room)
 
+# Create Room Function....
 @socketio.on('create_room')
 def handle_create_room():
     room = secrets.token_hex(3).upper()
-    print(f'Creating room: {room}')
     games[room] = {
         'players': {request.sid: 'X'},
         'board': [''] * 9,
         'turn': 'X',
-        'started': False
+        'started': False,
+        'X_Score': 0,
+        'O_Score': 0
     }
     join_room(room)
-    emit('room_created', {'room': room, 'symbol': 'X'})
+    emit('room_created', {'room': room, 'symbol': 'X', 'X_Score': games[room]['X_Score'], 'O_Score': games[room]['O_Score']})
 
+# Join Room Function....
 @socketio.on('join_room')
 def handle_join_room(data):
     room = data['room']
-    print(f'Joining room: {room}')
     
     if room not in games:
         emit('error', {'message': 'Room not found'})
@@ -80,71 +81,79 @@ def handle_join_room(data):
     games[room]['started'] = True
     join_room(room)
     
-    emit('room_joined', {'room': room, 'symbol': 'O'})
+    emit('room_joined', {'room': room, 'symbol': 'O', 'X_Score': games[room]['X_Score'], 'O_Score': games[room]['O_Score']})
     socketio.emit('game_start', {
         'board': games[room]['board'],
         'turn': games[room]['turn']
     }, room=room)
 
+# Move Function....
 @socketio.on('make_move')
 def handle_move(data):
     room = data['room']
     index = data['index']
     
-    print(f'Move in room {room} at index {index}')
-    
     if room not in games:
-        print('Room not found')
+        # print('Room not found')
         return
     
     game = games[room]
     player_symbol = game['players'].get(request.sid)
     
     if not player_symbol:
-        print('Player not in game')
+        # print('Player not in game')
         return
         
     if game['turn'] != player_symbol:
-        print(f'Not player turn. Current turn: {game["turn"]}, Player: {player_symbol}')
+        # print(f'Not player turn. Current turn: {game["turn"]}, Player: {player_symbol}')
         return
     
     if game['board'][index] != '':
-        print('Cell already occupied')
+        # print('Cell already occupied')
         return
     
     game['board'][index] = player_symbol
     winner = check_winner(game['board'])
     
     if winner:
+        if winner == 'X':
+            game['X_Score'] += 1
+        elif winner == 'O':
+            game['O_Score'] += 1
+
         socketio.emit('move_made', {
             'board': game['board'],
             'winner': winner,
-            'turn': game['turn']
+            'turn': game['turn'],
+            'X_Score': game['X_Score'],
+            'O_Score': game['O_Score']
         }, room=room)
     else:
         game['turn'] = 'O' if game['turn'] == 'X' else 'X'
         socketio.emit('move_made', {
             'board': game['board'],
             'winner': None,
-            'turn': game['turn']
+            'turn': game['turn'],
         }, room=room)
 
+# Reset Game Function....
 @socketio.on('reset_game')
 def handle_reset(data):
     room = data['room']
-    print(f'Resetting game in room {room}')
+    # print(f'Resetting game in room {room}')
     if room in games:
         games[room]['board'] = [''] * 9
-        games[room]['turn'] = 'X'
+        games[room]['turn'] = 'X' if games[room]['turn'] == 'O' else 'O'
         socketio.emit('game_reset', {
             'board': games[room]['board'],
-            'turn': games[room]['turn']
+            'turn': games[room]['turn'],
         }, room=room)
 
+# Player Leaving Room Function....
 @socketio.on('leave_room')
 def handle_leave_room(data):
     room = data['room']
-    print(f'Player leaving room {room}')
+    # print(f'Player leaving room {room}')
     if room in games:
         leave_room(room)
         if request.sid in games[room]['players']:
@@ -155,6 +164,7 @@ def handle_leave_room(data):
         else:
             socketio.emit('opponent_left', room=room)
 
+# Check Winner Function....
 def check_winner(board):
     lines = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8],  # rows

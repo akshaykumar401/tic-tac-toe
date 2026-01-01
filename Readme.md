@@ -22,7 +22,6 @@ A real-time Tic Tac Toe web game built using HTML, Tailwind CSS, JavaScript, and
 
 
 - **BACKEND**
-<br />
   1. <b>Python Flask</b> –> Server-side framework
 <br />
   2. <b>Flask-SocketIO</b> –> Real-time communication
